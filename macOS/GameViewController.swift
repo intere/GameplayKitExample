@@ -15,7 +15,8 @@ class GameViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let scene = GameScene.newGameScene()
+//        let scene = GameScene.newGameScene()
+        let scene = GameScene(size: view.frame.size)
         
         // Present the scene
         let skView = self.view as! SKView
@@ -25,7 +26,9 @@ class GameViewController: NSViewController {
         
         skView.showsFPS = true
         skView.showsNodeCount = true
+        skView.showsPhysics = true
     }
 
 }
+
 

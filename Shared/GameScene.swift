@@ -15,9 +15,18 @@ import SpriteKit
 
 class GameScene: SKScene {
     
-    
     fileprivate var label : SKLabelNode?
     fileprivate var spinnyNode : SKShapeNode?
+    fileprivate var board: GameBoard!
+
+    override init(size: CGSize) {
+        super.init(size: size)
+        board = GameBoard(inScene: self)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     
     class func newGameScene() -> GameScene {
@@ -29,7 +38,7 @@ class GameScene: SKScene {
         
         // Set the scale mode to scale to fit the window
         scene.scaleMode = .aspectFill
-        
+
         return scene
     }
     
@@ -125,6 +134,38 @@ extension GameScene {
 }
 #endif
 
+enum Direction {
+    case up
+    case down
+    case left
+    case right
+    case unknown
+
+    static func from(keyCode: UInt16) -> Direction {
+        for direction in [up, down, left, right] {
+            if Int(keyCode) == direction.keyCode {
+                return direction
+            }
+        }
+        return .unknown
+    }
+
+    var keyCode: Int {
+        switch self {
+        case .up:
+            return 126
+        case .down:
+            return 125
+        case .left:
+            return 123
+        case .right:
+            return 124
+        default:
+            return -1
+        }
+    }
+}
+
 #if os(OSX)
 // Mouse-based event handling
 extension GameScene {
@@ -134,14 +175,31 @@ extension GameScene {
             label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
         }
         self.makeSpinny(at: event.location(in: self), color: SKColor.green)
+        moveBoard(toPoint: event.location(in: self))
     }
     
     override func mouseDragged(with event: NSEvent) {
         self.makeSpinny(at: event.location(in: self), color: SKColor.blue)
+        moveBoard(toPoint: event.location(in: self))
     }
     
     override func mouseUp(with event: NSEvent) {
         self.makeSpinny(at: event.location(in: self), color: SKColor.red)
+        print(board.container!.position)
+    }
+
+    override func keyDown(with event: NSEvent) {
+        let direction = Direction.from(keyCode: event.keyCode)
+        print("keyDown:  \(direction)")
+    }
+
+    override func keyUp(with event: NSEvent) {
+//        let direction = Direction.from(keyCode: event.keyCode)
+//        print("keyUp:  \(direction)")
+    }
+
+    func moveBoard(toPoint point: CGPoint) {
+        board.container?.position = point
     }
 
 }
