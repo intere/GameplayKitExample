@@ -25,12 +25,25 @@ class EnemyState: GKState {
 
 extension EnemyState {
 
-    func path(to node: BoardPoint) -> [GKGridGraphNode] {
-        // TODO(egi): Implement Me
-        return []
+    func path(to point: BoardPoint) -> [GKGridGraphNode] {
+        guard let game = game else {
+            assertionFailure("We don't have a game to use")
+            return []
+        }
+        guard let path = game.level.graph.path(from: entity.gridIndex, to: point) as? [GKGridGraphNode] else {
+            return []
+        }
+        return path
     }
 
     func start(following path: [GKGridGraphNode]) {
-        // TODO(egi): Implement Me
+        guard path.count > 1 else {
+            return
+        }
+        guard let skComponent = entity.component(ofType: SpriteComponent.self) else {
+            return
+        }
+        let firstMove = path[1].gridPosition.boardPoint
+        skComponent.update(nextGridPosition: firstMove)
     }
 }

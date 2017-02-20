@@ -23,3 +23,7 @@ struct BoardPoint {
         return vector_int2(Int32(x), Int32(y))
     }
 }
+
+func==(first: BoardPoint?, second: BoardPoint?) -> Bool {
+    return first?.x == second?.x && first?.y == second?.y
+}

@@ -93,6 +93,14 @@
 		939E85481E5B3E8F00C44999 /* IntelligenceComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939E85461E5B3E8F00C44999 /* IntelligenceComponent.swift */; };
 		939E85491E5B3E8F00C44999 /* IntelligenceComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939E85461E5B3E8F00C44999 /* IntelligenceComponent.swift */; };
 		939E854A1E5B3E8F00C44999 /* IntelligenceComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939E85461E5B3E8F00C44999 /* IntelligenceComponent.swift */; };
+		939E854C1E5B6CB600C44999 /* EnemyChaseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939E854B1E5B6CB600C44999 /* EnemyChaseState.swift */; };
+		939E854D1E5B6CB600C44999 /* EnemyChaseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939E854B1E5B6CB600C44999 /* EnemyChaseState.swift */; };
+		939E854E1E5B6CB600C44999 /* EnemyChaseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939E854B1E5B6CB600C44999 /* EnemyChaseState.swift */; };
+		939E854F1E5B6CB600C44999 /* EnemyChaseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939E854B1E5B6CB600C44999 /* EnemyChaseState.swift */; };
+		939E85511E5B727600C44999 /* EnemyFleeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939E85501E5B727600C44999 /* EnemyFleeState.swift */; };
+		939E85521E5B727600C44999 /* EnemyFleeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939E85501E5B727600C44999 /* EnemyFleeState.swift */; };
+		939E85531E5B727600C44999 /* EnemyFleeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939E85501E5B727600C44999 /* EnemyFleeState.swift */; };
+		939E85541E5B727600C44999 /* EnemyFleeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939E85501E5B727600C44999 /* EnemyFleeState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,6 +187,8 @@
 		932719611E5ABBAC0027CCE5 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		939E85401E5B397C00C44999 /* PlayerControlComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerControlComponent.swift; sourceTree = "<group>"; };
 		939E85461E5B3E8F00C44999 /* IntelligenceComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntelligenceComponent.swift; sourceTree = "<group>"; };
+		939E854B1E5B6CB600C44999 /* EnemyChaseState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyChaseState.swift; sourceTree = "<group>"; };
+		939E85501E5B727600C44999 /* EnemyFleeState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyFleeState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -357,6 +367,8 @@
 			isa = PBXGroup;
 			children = (
 				36EB516B1E59F6E4007B415C /* EnemyState.swift */,
+				939E854B1E5B6CB600C44999 /* EnemyChaseState.swift */,
+				939E85501E5B727600C44999 /* EnemyFleeState.swift */,
 			);
 			name = EnemyStates;
 			sourceTree = "<group>";
@@ -582,6 +594,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				36EB51301E58D542007B415C /* Level.swift in Sources */,
+				939E854C1E5B6CB600C44999 /* EnemyChaseState.swift in Sources */,
 				36EB51611E59F1E1007B415C /* BoardEntity.swift in Sources */,
 				36EB513C1E596493007B415C /* LevelGraph.swift in Sources */,
 				36EB51361E59631D007B415C /* SpriteComponent.swift in Sources */,
@@ -597,6 +610,7 @@
 				36EB51131E58CCB3007B415C /* GameScene.swift in Sources */,
 				36EB50CF1E58CCB3007B415C /* GameViewController.swift in Sources */,
 				939E85471E5B3E8F00C44999 /* IntelligenceComponent.swift in Sources */,
+				939E85511E5B727600C44999 /* EnemyFleeState.swift in Sources */,
 				36EB50CD1E58CCB3007B415C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -606,6 +620,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				36EB51331E58D546007B415C /* Level.swift in Sources */,
+				939E854D1E5B6CB600C44999 /* EnemyChaseState.swift in Sources */,
 				36EB51621E59F1E1007B415C /* BoardEntity.swift in Sources */,
 				36EB513D1E596493007B415C /* LevelGraph.swift in Sources */,
 				36EB51371E59631D007B415C /* SpriteComponent.swift in Sources */,
@@ -621,6 +636,7 @@
 				36EB51141E58CCB3007B415C /* GameScene.swift in Sources */,
 				36EB50EE1E58CCB3007B415C /* ExtensionDelegate.swift in Sources */,
 				939E85481E5B3E8F00C44999 /* IntelligenceComponent.swift in Sources */,
+				939E85521E5B727600C44999 /* EnemyFleeState.swift in Sources */,
 				36EB50EC1E58CCB3007B415C /* InterfaceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -630,6 +646,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				36EB51321E58D545007B415C /* Level.swift in Sources */,
+				939E854E1E5B6CB600C44999 /* EnemyChaseState.swift in Sources */,
 				36EB51631E59F1E1007B415C /* BoardEntity.swift in Sources */,
 				36EB513E1E596493007B415C /* LevelGraph.swift in Sources */,
 				36EB51381E59631D007B415C /* SpriteComponent.swift in Sources */,
@@ -645,6 +662,7 @@
 				36EB51151E58CCB3007B415C /* GameScene.swift in Sources */,
 				36EB50F91E58CCB3007B415C /* GameViewController.swift in Sources */,
 				939E85491E5B3E8F00C44999 /* IntelligenceComponent.swift in Sources */,
+				939E85531E5B727600C44999 /* EnemyFleeState.swift in Sources */,
 				36EB50F71E58CCB3007B415C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -654,6 +672,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				36EB51311E58D545007B415C /* Level.swift in Sources */,
+				939E854F1E5B6CB600C44999 /* EnemyChaseState.swift in Sources */,
 				36EB51641E59F1E1007B415C /* BoardEntity.swift in Sources */,
 				36EB513F1E596493007B415C /* LevelGraph.swift in Sources */,
 				36EB51391E59631D007B415C /* SpriteComponent.swift in Sources */,
@@ -669,6 +688,7 @@
 				36EB51161E58CCB3007B415C /* GameScene.swift in Sources */,
 				36EB51071E58CCB3007B415C /* GameViewController.swift in Sources */,
 				939E854A1E5B3E8F00C44999 /* IntelligenceComponent.swift in Sources */,
+				939E85541E5B727600C44999 /* EnemyFleeState.swift in Sources */,
 				36EB51051E58CCB3007B415C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

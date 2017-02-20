@@ -20,11 +20,17 @@ class IntelligenceComponent: GKComponent {
         self.origin = origin
 
         // TODO(egi): Implement States
-        stateMachine = GKStateMachine(states: [])
+        let chaseState = EnemyChaseState(with: game, entity: enemy)
+        stateMachine = GKStateMachine(states: [chaseState])
+        stateMachine.enter(EnemyChaseState.self)
         super.init()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func update(deltaTime seconds: TimeInterval) {
+        stateMachine.update(deltaTime: seconds)
     }
 }

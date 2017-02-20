@@ -17,6 +17,7 @@ class Game {
     var intelligenceSystem: GKComponentSystem<GKComponent>!
     var container: SKSpriteNode!
     var prevUpdateTime: TimeInterval = -1
+    var random = GKRandomSource()
 
     init(level: Level, scene: SKScene) {
         self.level = level
@@ -56,7 +57,7 @@ extension Game: GridMapping {
         guard let controlComponent = player.component(ofType: PlayerControlComponent.self) else {
             return
         }
-        controlComponent.move(inDirection: direction)
+        controlComponent.attemptedDirection = direction
     }
     
 }

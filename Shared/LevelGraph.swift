@@ -42,6 +42,16 @@ extension LevelGraph {
         return position.gridPosition.boardPoint
     }
 
+    func path(from fromPoint: BoardPoint, to toPoint: BoardPoint) -> [GKGraphNode] {
+        guard let from = node(at: fromPoint), let to = node(at: toPoint) else {
+            return []
+        }
+        return pathFindingGraph.findPath(from: from, to: to)
+    }
+
+    func node(at point: BoardPoint) -> GKGridGraphNode? {
+        return pathFindingGraph.node(atGridPosition: point.vector)
+    }
 }
 
 // MARK: - Helpers
@@ -52,17 +62,17 @@ fileprivate extension LevelGraph {
         guard let position = node(at: point)?.gridPosition else {
             return nil
         }
-        var nextPosition: vector_int2?
+        var nextPosition: BoardPoint?
 
         switch direction {
         case .left:
-            nextPosition = vector_int2(position.x - 1, position.y)
+            nextPosition = BoardPoint(x: position.x - 1, y: Int(position.y))
         case .right:
-            nextPosition = vector_int2(position.x + 1, position.y)
+            nextPosition = BoardPoint(x: Int(position.x) + 1, y: Int(position.y))
         case .down:
-            nextPosition = vector_int2(position.x, position.y + 1)
+            nextPosition = BoardPoint(x: Int(position.x), y: Int(position.y) + 1)
         case .up:
-            nextPosition = vector_int2(position.x, position.y - 1)
+            nextPosition = BoardPoint(x: Int(position.x), y: Int(position.y) - 1)
         default:
             nextPosition = nil
         }
@@ -71,11 +81,7 @@ fileprivate extension LevelGraph {
             return nil
         }
 
-        return pathFindingGraph.node(atGridPosition: newPosition)
-    }
-
-    func node(at point: BoardPoint) -> GKGridGraphNode? {
-        return pathFindingGraph.node(atGridPosition: point.vector)
+        return pathFindingGraph.node(atGridPosition: newPosition.vector)
     }
 
     /// Finds the starting locations for the enemies

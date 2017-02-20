@@ -14,6 +14,8 @@ class SpriteComponent: GKComponent {
     let node: SKSpriteNode
     let level: Level
     let gridMapper: GridMapping
+    fileprivate var nextGridPosition: BoardPoint?
+    typealias Block = () -> Void
 
     init(with entity: BoardEntity, color: SKColor, unitSize: CGFloat, level: Level, gridMapper: GridMapping) {
         boardEntity = entity
@@ -41,14 +43,33 @@ extension SpriteComponent {
         move(to: gridMapper.convert(gridPoint: gridPoint))
     }
 
+    func update(nextGridPosition point: BoardPoint) {
+//        guard point.x != nextGridPosition?.x && point.y != nextGridPosition?.y else {
+//            return
+//        }
+        nextGridPosition = point
+        move(to: gridMapper.convert(gridPoint: point)) {
+            self.boardEntity.gridIndex = point
+            print("Setting gridIndex to \(point)")
+        }
+    }
+
 }
 
 // MARK: - Helpers
 
 fileprivate extension SpriteComponent {
 
-    func move(to point: CGPoint) {
-        node.run(SKAction.move(to: point, duration: 0.3))
+    func move(to point: CGPoint, block: Block? = nil) {
+        guard !node.hasActions() else {
+            return
+        }
+        node.run(SKAction.sequence([
+            SKAction.move(to: point, duration: 0.35),
+            SKAction.run {
+                block?()
+            }
+        ]), withKey: "move")
     }
     
 }
