@@ -8,45 +8,6 @@
 
 import SpriteKit
 
-// MARK: Board Type
-
-enum BoardType: Int {
-    case unknown = -1
-    case wall = 0
-    case open = 1
-    case playerStart = 2
-    case enemy = 3
-
-    /// Gets you a BoardType from an Integer value
-    ///
-    /// - Parameter value: The value you want converted to a board type
-    /// - Returns: The BoardType if it could be inferred, or `.unknown` if not
-    static func from(value: Int) -> BoardType {
-        let types: [BoardType] = [.wall, .open, .playerStart, .enemy]
-        for type in types {
-            if type.rawValue == value {
-                return type
-            }
-        }
-        return .unknown
-    }
-
-    var isEmpty: Bool {
-        switch self {
-        case .open, .playerStart, .enemy:
-            return true
-        default:
-            return false
-        }
-    }
-}
-
-struct BoardPoint {
-    var x: Int = 0
-    var y: Int = 0
-}
-
-// MARK: - Game Board
 
 class GameBoard {
 
