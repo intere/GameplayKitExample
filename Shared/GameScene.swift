@@ -14,14 +14,11 @@ import SpriteKit
 #endif
 
 class GameScene: SKScene {
-    
-    fileprivate var label : SKLabelNode?
-    fileprivate var spinnyNode : SKShapeNode?
-    fileprivate var board: GameBoard!
+    fileprivate var game: Game!
 
     override init(size: CGSize) {
         super.init(size: size)
-        board = GameBoard(inScene: self)
+        game = Game(level: Level(), scene: self)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -29,7 +26,7 @@ class GameScene: SKScene {
     }
 
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
+        game.update(currentTime: currentTime, forScene: self)
     }
 }
 
@@ -64,7 +61,6 @@ extension GameScene {
             self.makeSpinny(at: t.location(in: self), color: SKColor.red)
         }
     }
-    
    
 }
 #endif
@@ -108,7 +104,9 @@ extension GameScene {
     override func keyDown(with event: NSEvent) {
         let direction = Direction.from(keyCode: event.keyCode)
         print("keyDown:  \(direction)")
-        board.movePlayer(direction: direction)
+        game.movePlayer(direction: direction)
+        // TODO(egi): handle directional motion
+//        board.movePlayer(direction: direction)
     }
 
     override func keyUp(with event: NSEvent) {
@@ -116,9 +114,9 @@ extension GameScene {
 //        print("keyUp:  \(direction)")
     }
 
-    func moveBoard(toPoint point: CGPoint) {
-        board.container?.position = point
-    }
+//    func moveBoard(toPoint point: CGPoint) {
+//        board.container?.position = point
+//    }
 
 }
 #endif

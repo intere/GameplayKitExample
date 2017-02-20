@@ -8,6 +8,7 @@
 
 import SpriteKit
 
+/// The Individual cells in the board
 enum BoardType: Int {
     case unknown = -1
     case wall = 0
