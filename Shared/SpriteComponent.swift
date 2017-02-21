@@ -17,12 +17,14 @@ class SpriteComponent: GKComponent {
     fileprivate var nextGridPosition: BoardPoint?
     typealias Block = () -> Void
 
-    init(with entity: BoardEntity, color: SKColor, unitSize: CGFloat, level: Level, gridMapper: GridMapping) {
+    init(with entity: BoardEntity, color: SKColor, unitSize: CGFloat, level: Level, gridMapper: GridMapping, type: EntityType) {
         boardEntity = entity
         node = SKSpriteNode(color: color, size: CGSize(width: unitSize, height: unitSize))
+        node.entity = entity
         node.anchorPoint = CGPoint(x: 0, y: 0)
-
         node.position = gridMapper.convert(gridPoint: entity.gridIndex)
+        node.physicsBody = type.physicsBody(node: node)
+
         self.level = level
         self.gridMapper = gridMapper
         super.init()
@@ -44,16 +46,41 @@ extension SpriteComponent {
     }
 
     func update(nextGridPosition point: BoardPoint) {
-//        guard point.x != nextGridPosition?.x && point.y != nextGridPosition?.y else {
-//            return
-//        }
         nextGridPosition = point
         move(to: gridMapper.convert(gridPoint: point)) {
             self.boardEntity.gridIndex = point
-            print("Setting gridIndex to \(point)")
         }
     }
 
+    func warp(toGridPosition point: BoardPoint) {
+        node.run(SKAction.sequence([
+            SKAction.fadeOut(withDuration: 0.5),
+            SKAction.move(to: gridMapper.convert(gridPoint: point), duration: 0.5),
+            SKAction.fadeIn(withDuration: 0.5),
+            SKAction.run {
+                self.boardEntity.gridIndex = point
+            }
+        ]))
+    }
+
+    func follow(path: [GKGridGraphNode], completion: Block?) {
+        var sequence = [SKAction]()
+
+        for node in path.dropFirst() {
+            let gridPoint = node.gridPosition.boardPoint
+            let point = gridMapper.convert(gridPoint: gridPoint)
+            sequence.append(SKAction.move(to: point, duration: 0.15))
+            sequence.append(SKAction.run {
+                self.boardEntity.gridIndex = gridPoint
+            })
+        }
+        if let completion = completion {
+            sequence.append(SKAction.run {
+                completion()
+            })
+        }
+        node.run(SKAction.sequence(sequence))
+    }
 }
 
 // MARK: - Helpers

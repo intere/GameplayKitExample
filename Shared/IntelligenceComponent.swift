@@ -19,9 +19,13 @@ class IntelligenceComponent: GKComponent {
         self.enemy = enemy
         self.origin = origin
 
-        // TODO(egi): Implement States
-        let chaseState = EnemyChaseState(with: game, entity: enemy)
-        stateMachine = GKStateMachine(states: [chaseState])
+        let chase = EnemyChaseState(with: game, entity: enemy)
+        let flee = EnemyFleeState(with: game, entity: enemy)
+        let defeated = EnemyDefeatedState(with: game, entity: enemy)
+        defeated.respawnPosition = origin
+        let respawn = EnemyRespawnState(with: game, entity: enemy)
+
+        stateMachine = GKStateMachine(states: [chase, flee, defeated, respawn])
         stateMachine.enter(EnemyChaseState.self)
         super.init()
     }

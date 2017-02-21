@@ -48,6 +48,17 @@ class PlayerControlComponent: GKComponent {
 
 }
 
+// MARK: - API
+
+extension PlayerControlComponent {
+
+    func reset() {
+        direction = .unknown
+        attemptedDirection = .unknown
+    }
+
+}
+
 // MARK: - Helpers
 
 fileprivate extension PlayerControlComponent {

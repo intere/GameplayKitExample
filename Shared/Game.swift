@@ -43,6 +43,17 @@ extension Game {
         player.update(deltaTime: dt)
     }
 
+    func playerDied() {
+        guard let skComponent = player.component(ofType: SpriteComponent.self) else {
+            return
+        }
+        skComponent.warp(toGridPosition: level.startPosition)
+        guard let controlComponent = player.component(ofType: PlayerControlComponent.self) else {
+            return
+        }
+        controlComponent.reset()
+    }
+
 }
 
 // MARK: - GridMapping
@@ -151,8 +162,8 @@ fileprivate extension Game {
 
     /// Responsible for the creation of the game entities
     func createEntities() {
-        player = BoardEntity(gridIndex: level.startPosition)
-        player.addComponent(SpriteComponent(with: player, color: .white, unitSize: unitSize, level: level, gridMapper: self))
+        player = BoardEntity(gridIndex: level.startPosition, type: .player)
+        player.addComponent(SpriteComponent(with: player, color: .white, unitSize: unitSize, level: level, gridMapper: self, type: .player))
         player.addComponent(PlayerControlComponent(withPlayer: player, andLevel: level))
         player.component(ofType: SpriteComponent.self)?.node.zPosition = 15
 
@@ -161,8 +172,8 @@ fileprivate extension Game {
 
         for i in 0..<level.enemyStartPositions.count {
             let position = level.enemyStartPositions[i]
-            let enemy = BoardEntity(gridIndex: position)
-            enemy.addComponent(SpriteComponent(with: enemy, color: enemyColors[i], unitSize: unitSize, level: level, gridMapper: self))
+            let enemy = BoardEntity(gridIndex: position, type: .enemy)
+            enemy.addComponent(SpriteComponent(with: enemy, color: enemyColors[i], unitSize: unitSize, level: level, gridMapper: self, type: .enemy))
             enemy.addComponent(IntelligenceComponent(with: self, enemy: enemy, origin: position))
             intelligenceSystem.addComponent(foundIn: enemy)
             enemies.append(enemy)

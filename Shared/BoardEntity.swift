@@ -10,9 +10,11 @@ import GameplayKit
 
 class BoardEntity: GKEntity {
     var gridIndex: BoardPoint
+    var entityType: EntityType
 
-    init(gridIndex: BoardPoint) {
+    init(gridIndex: BoardPoint, type: EntityType) {
         self.gridIndex = gridIndex
+        self.entityType = type
         super.init()
     }
     
