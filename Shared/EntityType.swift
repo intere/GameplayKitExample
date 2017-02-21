@@ -40,11 +40,13 @@ enum EntityType {
     /// - Parameter node: The SpriteNode to create the physics body for.
     /// - Returns: The Physics Body for the provided node
     func physicsBody(node: SKSpriteNode) -> SKPhysicsBody? {
-        let physicsBody = SKPhysicsBody(rectangleOf: node.size)
+        let center = CGPoint(x: node.size.width * (node.anchorPoint.x + 0.5), y: node.size.height * (0.5 - node.anchorPoint.y))
+        let physicsBody = SKPhysicsBody(rectangleOf: node.size, center: center)
         physicsBody.affectedByGravity = false
         physicsBody.categoryBitMask = mask
         physicsBody.contactTestBitMask = contactMask
         physicsBody.collisionBitMask = 0
+
 
         return physicsBody
     }
