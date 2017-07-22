@@ -14,5 +14,9 @@ class EnemyRespawnState: EnemyState {
         return [EnemyChaseState.self, EnemyFleeState.self].contains(where: {$0 == stateClass})
     }
 
+
+    override func didEnter(from previousState: GKState?) {
+        entity.intelligence?.stateMachine.enter(EnemyChaseState.self)
+    }
     
 }

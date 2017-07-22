@@ -68,7 +68,7 @@ fileprivate extension LevelGraph {
 
         switch direction {
         case .left:
-            nextPosition = BoardPoint(x: position.x - 1, y: Int(position.y))
+            nextPosition = BoardPoint(x: Int(position.x) - 1, y: Int(position.y))
         case .right:
             nextPosition = BoardPoint(x: Int(position.x) + 1, y: Int(position.y))
         case .down:

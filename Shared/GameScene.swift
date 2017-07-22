@@ -84,6 +84,7 @@ fileprivate extension GameScene {
         if aiComponent.stateMachine.currentState is EnemyChaseState {
             game.playerDied()
         } else {
+            print("Enemy Defeated!")
             // The enemy enters the defeated state
             aiComponent.stateMachine.enter(EnemyDefeatedState.self)
         }

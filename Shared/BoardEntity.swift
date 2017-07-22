@@ -8,7 +8,9 @@
 
 import GameplayKit
 
+/// Represents an entity on the board
 class BoardEntity: GKEntity {
+    
     var gridIndex: BoardPoint
     var entityType: EntityType
 
