@@ -16,12 +16,14 @@ class LevelGraph {
     let pathFindingGraph: GKGridGraph<GKGridGraphNode>
     var startPosition: BoardPoint!
     var enemyStartPositions: [BoardPoint]
+    var powerUps: [BoardPoint]
 
     init(with level: Level) {
         self.level = level
         self.pathFindingGraph = LevelGraph.createPathFindingGraph(from: level)
         self.startPosition = LevelGraph.findStartPosition(from: level)
         self.enemyStartPositions = LevelGraph.findEnemyStartPositions(from: level)
+        self.powerUps = LevelGraph.findPowerUps(from: level)
     }
 }
 
@@ -100,6 +102,24 @@ fileprivate extension LevelGraph {
         }
 
         return startPoints
+    }
+
+    /// Finds the power up locations on the board
+    ///
+    /// - Parameter level: The level to scan for power ups
+    /// - Returns: an array of power up positions
+    static func findPowerUps(from level: Level) -> [BoardPoint] {
+        var powerUps = [BoardPoint]()
+
+        for row in 0..<Int(level.height) {
+            for column in 0..<Int(level.width) {
+                if level.get(row: row, column: column) == .powerUp {
+                    powerUps.append(BoardPoint(x: column, y: row))
+                }
+            }
+        }
+
+        return powerUps
     }
 
     /// Finds the starting point for the player

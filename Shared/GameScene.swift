@@ -41,6 +41,12 @@ extension GameScene: SKPhysicsContactDelegate {
         } else if contact.bodyB.categoryBitMask == EntityType.enemy.mask {
             handleCollision(withEnemy: contact.bodyB.node)
         }
+
+        if contact.bodyA.categoryBitMask == EntityType.powerUp.mask {
+            handleCollision(withPowerUp: contact.bodyA.node)
+        } else if contact.bodyB.categoryBitMask == EntityType.powerUp.mask {
+            handleCollision(withPowerUp: contact.bodyB.node)
+        }
     }
     
 }
@@ -48,6 +54,23 @@ extension GameScene: SKPhysicsContactDelegate {
 // MARK: - Helpers
 
 fileprivate extension GameScene {
+
+    func handleCollision(withPowerUp powerUp: SKNode?) {
+        guard let powerUp = powerUp else {
+            return
+        }
+        powerUp.run(SKAction.fadeOut(withDuration: 0.5)) {
+            powerUp.run(SKAction.removeFromParent())
+        }
+
+        // TODO: Make enemies transition to flee state
+        for enemy in game.enemies {
+            guard let ai = enemy.intelligence else {
+                continue
+            }
+            ai.stateMachine.enter(EnemyFleeState.self)
+        }
+    }
 
     func handleCollision(withEnemy enemy: SKNode?) {
         guard let entity = enemy?.entity else {

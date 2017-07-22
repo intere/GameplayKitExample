@@ -10,5 +10,9 @@ import GameplayKit
 
 class EnemyRespawnState: EnemyState {
 
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
+        return [EnemyChaseState.self, EnemyFleeState.self].contains(where: {$0 == stateClass})
+    }
+
     
 }

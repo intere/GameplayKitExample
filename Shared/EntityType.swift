@@ -12,6 +12,7 @@ import GameplayKit
 enum EntityType {
     case player
     case enemy
+    case powerUp
 
     /// Gets you the collision bitmask for the entity type
     var mask: UInt32 {
@@ -21,6 +22,9 @@ enum EntityType {
 
         case .enemy:
             return 1 << 2
+
+        case .powerUp:
+            return 1 << 3
         }
     }
 
@@ -28,9 +32,12 @@ enum EntityType {
     var contactMask: UInt32 {
         switch self {
         case .player:
-            return EntityType.enemy.mask
+            return EntityType.enemy.mask | EntityType.powerUp.mask
 
         case .enemy:
+            return EntityType.player.mask
+
+        case .powerUp:
             return EntityType.player.mask
         }
     }

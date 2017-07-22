@@ -14,6 +14,7 @@ class Game {
     let level: Level
     var player: BoardEntity!
     var enemies = [BoardEntity]()
+    var powerUps = [BoardEntity]()
     var intelligenceSystem: GKComponentSystem<GKComponent>!
     var container: SKSpriteNode!
     var prevUpdateTime: TimeInterval = -1
@@ -178,6 +179,12 @@ fileprivate extension Game {
             intelligenceSystem.addComponent(foundIn: enemy)
             enemies.append(enemy)
         }
+
+        for position in level.powerUps {
+            let powerUp = BoardEntity(gridIndex: position, type: .powerUp)
+            powerUp.addComponent(SpriteComponent(with: powerUp, color: .white, unitSize: unitSize / 2, level: level, gridMapper: self, type: .powerUp))
+            powerUps.append(powerUp)
+        }
     }
 
     /// This is responsible for adding the sprite component of the entities to the game board
@@ -185,6 +192,7 @@ fileprivate extension Game {
         var entities = [BoardEntity]()
         entities.append(player)
         entities.append(contentsOf: enemies)
+        entities.append(contentsOf: powerUps)
 
         for entity in entities {
             guard let skComponent = entity.component(ofType: SpriteComponent.self) else {

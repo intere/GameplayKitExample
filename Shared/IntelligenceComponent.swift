@@ -9,7 +9,9 @@
 import GameplayKit
 
 class IntelligenceComponent: GKComponent {
+
     var stateMachine: GKStateMachine!
+
     var game: Game!
     var enemy: BoardEntity!
     var origin: BoardPoint!

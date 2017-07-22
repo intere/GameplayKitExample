@@ -21,4 +21,26 @@ class BoardEntity: GKEntity {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    /// Gets you the sprite for this Board Entity (if one exists)
+    var sprite: SKNode? {
+        for component in components {
+            guard let spriteComponent = component as? SpriteComponent else {
+                continue
+            }
+            return spriteComponent.node
+        }
+        return nil
+    }
+
+    /// Gets you the Intelligence Component (AI) for this Board Entity.
+    var intelligence: IntelligenceComponent? {
+        for component in components {
+            guard let intelligenceComponent = component as? IntelligenceComponent else {
+                continue
+            }
+            return intelligenceComponent
+        }
+        return nil
+    }
 }

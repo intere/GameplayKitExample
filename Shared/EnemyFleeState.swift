@@ -11,13 +11,14 @@ import GameplayKit
 class EnemyFleeState: EnemyState {
 
     var target: BoardPoint?
+    var originalColor: NSColor?
 
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {
-        return stateClass == EnemyChaseState.self ||
-            stateClass == EnemyDefeatedState.self
+        return [EnemyChaseState.self, EnemyDefeatedState.self].contains(where: {$0 == stateClass})
     }
 
     override func didEnter(from previousState: GKState?) {
+        super.didEnter(from: previousState)
         guard let game = game else {
             return
         }
@@ -25,6 +26,22 @@ class EnemyFleeState: EnemyState {
             return
         }
         self.target = target
+
+        guard let spriteComponent = entity.component(ofType: SpriteComponent.self) else {
+            assertionFailure("No sprite component for enemy")
+            return
+        }
+
+        // Phase 1: Change the color to purple for 7 seconds
+        spriteComponent.temporaryChange(color: .purple, time: 7) {
+            
+            // Phase 2: Flash the color for 3 seconds:
+            spriteComponent.flash(color: .purple, repetitions: 6) {
+
+                // Phase 3: Switch back to Chase State.
+                self.entity.intelligence?.stateMachine.enter(EnemyChaseState.self)
+            }
+        }
     }
 
     override func update(deltaTime seconds: TimeInterval) {

@@ -13,6 +13,8 @@ class EnemyChaseState: EnemyState {
 
     fileprivate let ruleSystem = GKRuleSystem()
     fileprivate var scatterTarget: GKGridGraphNode?
+
+    /// Is the enemy in the hunting state?
     var hunting = false {
         didSet {
             huntingToggled()
@@ -30,6 +32,7 @@ class EnemyChaseState: EnemyState {
     }
 
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {
+        // The only valid next state is "flee"
         return [EnemyFleeState.self].contains(where: { $0 == stateClass })
     }
 
@@ -62,9 +65,17 @@ class EnemyChaseState: EnemyState {
 
 }
 
-// MARK: - API
+// MARK: - Implementation
 
 extension EnemyChaseState {
+
+    /// Gets you the path to the player (from the position of the enemy)
+    var pathToPlayer: [GKGridGraphNode] {
+        guard let game = game else {
+            return []
+        }
+        return path(to: game.player.gridIndex)
+    }
 
     func huntingToggled() {
         guard !hunting else {
@@ -79,19 +90,6 @@ extension EnemyChaseState {
             return
         }
         self.scatterTarget = game.level.graph.node(at: scatterTarget)
-    }
-
-}
-
-// MARK: - Helpers
-
-fileprivate extension EnemyChaseState {
-
-    var pathToPlayer: [GKGridGraphNode] {
-        guard let game = game else {
-            return []
-        }
-        return path(to: game.player.gridIndex)
     }
 
 }

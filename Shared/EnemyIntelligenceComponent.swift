@@ -9,9 +9,5 @@
 import GameplayKit
 
 class EnemyIntelligenceComponent: GKComponent {
-//    let boardEntity: BoardEntity
-//
-//    init(with entity: BoardEntity) {
-//        self.boardEntity = entity
-//    }
+
 }
