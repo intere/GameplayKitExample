@@ -14,14 +14,12 @@ import SpriteKit
 #endif
 
 class GameScene: SKScene {
-    
-    fileprivate var label : SKLabelNode?
-    fileprivate var spinnyNode : SKShapeNode?
-    fileprivate var board: GameBoard!
+    fileprivate var game: Game!
 
     override init(size: CGSize) {
         super.init(size: size)
-        board = GameBoard(inScene: self)
+        game = Game(level: Level(), scene: self)
+        physicsWorld.contactDelegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -29,8 +27,69 @@ class GameScene: SKScene {
     }
 
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
+        game.update(currentTime: currentTime, forScene: self)
     }
+}
+
+// MARK: - SKPhysicsContactDelegate {
+
+extension GameScene: SKPhysicsContactDelegate {
+
+    func didBegin(_ contact: SKPhysicsContact) {
+        if contact.bodyA.categoryBitMask == EntityType.enemy.mask {
+            handleCollision(withEnemy: contact.bodyA.node)
+        } else if contact.bodyB.categoryBitMask == EntityType.enemy.mask {
+            handleCollision(withEnemy: contact.bodyB.node)
+        }
+
+        if contact.bodyA.categoryBitMask == EntityType.powerUp.mask {
+            handleCollision(withPowerUp: contact.bodyA.node)
+        } else if contact.bodyB.categoryBitMask == EntityType.powerUp.mask {
+            handleCollision(withPowerUp: contact.bodyB.node)
+        }
+    }
+    
+}
+
+// MARK: - Helpers
+
+fileprivate extension GameScene {
+
+    func handleCollision(withPowerUp powerUp: SKNode?) {
+        guard let powerUp = powerUp else {
+            return
+        }
+        powerUp.run(SKAction.fadeOut(withDuration: 0.5)) {
+            powerUp.run(SKAction.removeFromParent())
+        }
+
+        // Transition all of the enemies to the "Flee" state.
+        for enemy in game.enemies {
+            guard let ai = enemy.intelligence else {
+                continue
+            }
+            ai.stateMachine.enter(EnemyFleeState.self)
+        }
+    }
+
+    func handleCollision(withEnemy enemy: SKNode?) {
+        guard let entity = enemy?.entity else {
+            assertionFailure("Enemy has no entity")
+            return
+        }
+        guard let aiComponent = entity.component(ofType: IntelligenceComponent.self) else {
+            assertionFailure("Enemy has no AI")
+            return
+        }
+        if aiComponent.stateMachine.currentState is EnemyChaseState {
+            game.playerDied()
+        } else {
+            print("Enemy Defeated!")
+            // The enemy enters the defeated state
+            aiComponent.stateMachine.enter(EnemyDefeatedState.self)
+        }
+    }
+
 }
 
 #if os(iOS) || os(tvOS)
@@ -64,7 +123,6 @@ extension GameScene {
             self.makeSpinny(at: t.location(in: self), color: SKColor.red)
         }
     }
-    
    
 }
 #endif
@@ -107,17 +165,7 @@ extension GameScene {
 
     override func keyDown(with event: NSEvent) {
         let direction = Direction.from(keyCode: event.keyCode)
-        print("keyDown:  \(direction)")
-        board.movePlayer(direction: direction)
-    }
-
-    override func keyUp(with event: NSEvent) {
-//        let direction = Direction.from(keyCode: event.keyCode)
-//        print("keyUp:  \(direction)")
-    }
-
-    func moveBoard(toPoint point: CGPoint) {
-        board.container?.position = point
+        game.movePlayer(direction: direction)
     }
 
 }
