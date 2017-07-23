@@ -63,7 +63,7 @@ fileprivate extension GameScene {
             powerUp.run(SKAction.removeFromParent())
         }
 
-        // TODO: Make enemies transition to flee state
+        // Transition all of the enemies to the "Flee" state.
         for enemy in game.enemies {
             guard let ai = enemy.intelligence else {
                 continue
@@ -165,18 +165,8 @@ extension GameScene {
 
     override func keyDown(with event: NSEvent) {
         let direction = Direction.from(keyCode: event.keyCode)
-//        print("keyDown:  \(direction)")
         game.movePlayer(direction: direction)
     }
-
-    override func keyUp(with event: NSEvent) {
-//        let direction = Direction.from(keyCode: event.keyCode)
-//        print("keyUp:  \(direction)")
-    }
-
-//    func moveBoard(toPoint point: CGPoint) {
-//        board.container?.position = point
-//    }
 
 }
 #endif
