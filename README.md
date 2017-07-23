@@ -24,4 +24,4 @@ The game is not complete, it's just a demo to demonstrate some basic capabilitie
 
 
 ## Screenshots
-![Screenshot 1](https://github.com/intere/GameplayKitExample/blob/feature/master/screenshots/screenshot1.png)
+![Screenshot 1](https://github.com/intere/GameplayKitExample/blob/master/screenshots/screenshot1.png)
