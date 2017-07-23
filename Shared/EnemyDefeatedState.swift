@@ -28,6 +28,7 @@ class EnemyDefeatedState: EnemyState {
             assertionFailure("No sprite component for enemy")
             return
         }
+        spriteComponent.node.removeAllActions()
         let respawnPath = path(to: respawnPosition)
         spriteComponent.follow(path: respawnPath) {
             self.stateMachine?.enter(EnemyRespawnState.self)
