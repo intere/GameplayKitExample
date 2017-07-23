@@ -21,3 +21,7 @@ The game is not complete, it's just a demo to demonstrate some basic capabilitie
 
 ## Game Controls
 * Use the arrow keys on your keyboard to control our hero
+
+
+## Screenshots
+![Screenshot 1](https://github.com/intere/GameplayKitExample/blob/feature/master/screenshots/screenshot1.png)
